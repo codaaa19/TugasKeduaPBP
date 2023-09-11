@@ -5,6 +5,7 @@ def show_main(request):
     context = {
         'name': 'Tsabit Coda R',
         'class': 'PBP C'
+        # 'item' : ''
     }
 
     return render(request, "main.html", context)

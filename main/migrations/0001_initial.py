@@ -19,6 +19,8 @@ class Migration(migrations.Migration):
                 ('date_added', models.DateField(auto_now_add=True)),
                 ('price', models.IntegerField()),
                 ('description', models.TextField()),
+                ('amount', models.IntegerField()),
+                ('date_expired', models.DateField(auto_now_add=True))
             ],
         ),
     ]
