@@ -4,4 +4,4 @@ NPM     : 2206081414
 
 Kelas   : PBP C
 
-Jurusan : Ilmu Komputer
+Jurusan : Ilmu Komputer 
