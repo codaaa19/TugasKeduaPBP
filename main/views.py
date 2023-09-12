@@ -3,9 +3,12 @@ from django.shortcuts import render
 # Create your views here.
 def show_main(request):
     context = {
-        'name': 'Tsabit Coda R',
-        'class': 'PBP C'
-        # 'item' : ''
+        'name': 'Diamonds',
+        'date_added': 'Today!',
+        'price' : '19$',
+        'description' : 'An useful item for purchasing things',
+        'date_expired' : '19 December  2023',
+        'amount' : '10 MORE !!!'
     }
 
     return render(request, "main.html", context)
