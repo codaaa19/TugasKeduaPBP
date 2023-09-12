@@ -107,3 +107,31 @@ Tahap - tahapnya :
 
 # Why Virtual Environment ?!
 
+Secara garis besar, penggunaan Virtual Environment didasari dari kemudahan dan efisiensi dalam melakukan proyek tertentu. Mengapa demikian? Berkat Virtual Environment, kita dapat mengerjakan beberapa proyek dengan depedensi tanpa konfilk.
+
+Melalui hal tersebut, maka kita dapat mengelola depedensi yang diperlukan proyek secara terpisah dan menghindari adanya konflik yang akan terjadi.
+
+**APAKAH TETAP BISA TANPA VIRTUAL ENVIRONMENT?**
+
+Iya, bisa. Namun, mungkin lebih kompleks dan tidak akan mendapatkan kemudahan dari penjabaran sebelumnya.
+
+## MVC? MVT? MVVM ?
+1. MVC (Model View Controller) adalah sebuah design pattern yang memisahkan model, view, dan juga controller
+- Model : Mengatur dan mengelola database
+- View : Menampilkan GUI
+- Controller : Menyambungkan model dan view
+
+2. MVT (Model View Template) mirip dengan MVC hanya saja terdapat perbedaan dalam controller yang diimplementasikan langsung oleh framework. 
+- Model : Mengatur dan mengelola database
+- View : Tempat pemrosesan permintaan dan berfungsi sebagai logic utama
+- Template : Tampilan
+
+3. MVVM (Model View ViewModel) adalah sebuah design patterpembuatan GUI yang memisahkan fokus antara tampilan aplikasi dan juga logic program.
+- Model : Mengelola database dan logic aplikasi setelah menerima input dari view
+- View : Representasikan UI
+- ViewModel : Penghubung model dan juga view
+
+## Bonus
+Melakukan testing proyek django dengan melakukan perintah `python manage.py test` dan memgasilkan output :
+
+![Foto Testing Django](testingDjango.png)
