@@ -284,6 +284,12 @@ Screenshot `XML` dan `XML/id`
 
 Screenshot `JSON` dan `JSON/id`
 
+![Foto Testing JSON](postman1json.jpg)
+
+<br>
+
+![Foto Testing JSONID](postman1jsonid.jpg)
+
 ## BONUS (OPSIONAL)
 =======
 ## GET vs POST (DJANGO)
