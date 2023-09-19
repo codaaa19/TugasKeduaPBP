@@ -135,3 +135,27 @@ Iya, bisa. Namun, mungkin lebih kompleks dan tidak akan mendapatkan kemudahan da
 Melakukan testing proyek django dengan melakukan perintah `python manage.py test` dan memgasilkan output :
 
 ![Foto Testing Django](testingDjango.png)
+
+## GET vs POST (DJANGO)
+
+1. Tata cara pengiriman data
+- `Get` data form URL
+- `Post` data form HTTP dan bersifat sembunyi (tidak menggunakan URL)
+
+2. Benefit
+- `Get` dapat menggunakan bookmark karena based on URL
+- `Post` tidak dapat menggunakan bookmark karena tidak based on URL
+
+3. (opsional)
+
+## Perbedaan XML, JSON, AND HTML
+
+1. Function
+- HTML membuat tampilan halaman web atau dapat dikatakan sebagai kerangka web
+- JSON menyimpan dan mengirimkan data dengan format data yang mudah dimengerti
+- XML menyimpan dan mengirimkan data dengan format data self-descriptive
+
+2. Struktur
+- HTML membuat tampilan halaman web(heading, picture, paragpraph, and much more)
+- JSON menyimpan data dengan format key:value and nested
+- XML menyimpan data dengan format tree structure (parent child relationship)
