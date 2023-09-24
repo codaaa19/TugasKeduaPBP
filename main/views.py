@@ -13,35 +13,25 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
 # def show_item()
 @login_required(login_url='/login')
 def show_main(request):
-    items = Item.objects.all()
+    items = Item.objects.filter(user = request.user)
     context = {
-        'name': request.user.username,
+        'name': request.user.username, 
         'items': items,
-        'last_login': request.COOKIES['last_login']
+        'last_login': request.COOKIES['last_login'],
+        'pembuat' : 'Tsabit Coda R - PBP C'
     }
 
     return render(request, "main.html", context)
 
-def show_home(request1):
-    context = {
-        'name': 'Diamonds',
-        'date_added': 'Today!',
-        'price' : '19$',
-        'description' : 'An useful item for purchasing things',
-        'date_expired' : '19 December  2023',
-        'amount' : '10 MORE !!!'
-    }
-
-    return render(request1, "home.html", context)
-
 def create_Item(request):
-    message = ''
+    # message = ''
     form = ItemForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
@@ -90,7 +80,7 @@ def login_user(request):
             login(request,user)
             response = HttpResponseRedirect(reverse("main:show_main"))
             # response.set_cookie('last_login', str(datetime.datetime.now()))
-            response.set_cookie('last_login', str(datetime.date()))
+            response.set_cookie('last_login', str(datetime.date.today()))
             return response
         else:
             messages.info(request, 'Sorry, incorrect username or password. Please try again.')
@@ -103,3 +93,26 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+@csrf_exempt
+def kurang_amount(request,id):
+    barang_check = Item.objects.get(pk=id)
+    if barang_check.amount > 1:
+        barang_check.amount -= 1
+        barang_check.save()
+    else:
+        barang_check.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+@csrf_exempt
+def tambah_amount(request,id):
+    barang_check = Item.objects.get(pk=id)
+    barang_check.amount += 1
+    barang_check.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+@csrf_exempt
+def hapus_item(request,id):
+    barang_check = Item.objects.get(pk=id)
+    barang_check.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))

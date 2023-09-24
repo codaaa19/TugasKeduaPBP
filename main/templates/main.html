@@ -4,31 +4,44 @@
 
     <h1>Welcome to Coda Shop !</h1>
 
-    <h5>Name:</h5>
+   <p></p> <h5>Hi, </h5> {{name}}</p>
     <p>{{ name }}<p>
 
 
-    <h5>Class :</h5>
-    <p>{{ class }}<p>
+    <!-- <h5>Class :</h5> -->
+    <p>{{ pembuat }}<p>
 
 
-<table>
+<table class="bordered-table">
     <tr>
         <th>Name</th>
         <th>Price</th>
         <th>Description</th>
         <th>Date Added</th>
+        <th>Amount</th>
+        <th>Add Amount</th>
+        <th>Less Amount</th>
+        <th>DELETE ITEM</th>
+        <!-- <th class="table-header">Amount Settings</th> -->
     </tr>
 
     {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
 
     {% for item in items %}
-        <tr>
+        <tr class="table-row">
             <td>{{item.name}}</td>
-            <td>{{item.price}}</td>
+            <td>{{item.price}}$</td>
             <td>{{item.description}}</td>
             <td>{{item.date_added}}</td>
+            <td>{{item.amount}}</td> 
+            <td><form method="POST" action = "/tambah_amount/{{item.id}}/"> 
+                {% csrf_token %}
+                <button style="width: 50%;" type="submit">+</button>
+            </form></td>
+            <td><form method="POST" action="/kurang_amount/{{item.id}}/"><button style="width: 50%;">-</button></form></td>
+            <td><form method="POST" action="/hapus_item/{{item.id}}/"><button style="color: #ff4500;">DELETE</button></form></td>
         </tr>
+
     {% endfor %}
 </table>
 
@@ -48,5 +61,34 @@
 
 <h5>Latest Login: {{ last_login }}</h5>
 
+
+<style>
+    /* Add a CSS class to style the table rows */
+    .table-row {
+        vertical-align: middle;
+        text-align: center;
+    }
+    /* Add a CSS class to style the table */
+    .bordered-table {
+        width: 100%;
+        border-collapse: collapse; /* This property ensures that adjacent borders merge into a single border line */
+        
+    }
+
+    /* Style the table headers (optional) */
+    .bordered-table th {
+        border: 1px solid #000; /* You can customize the border color and width */
+        padding: 8px; /* Adjust padding as needed for header content */
+        background-color:#99775C;
+        color: rgba(245, 245, 245, 0.723);
+    }
+
+    /* Style the table cells (optional) */
+    .bordered-table td {
+        border: 1px solid #000; /* You can customize the border color and width */
+        padding: 8px; /* Adjust padding as needed for cell content */
+        background-color: #EAE7DD;
+    }
+</style>
 
 {% endblock content %}

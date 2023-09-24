@@ -6,21 +6,41 @@
 
 {% block content %}
 
-<div class = "login">
+<style>
+    .btn {
+        /* background-color: white; */
+        /* border: rgb(194, 35, 35); */
+        color: #ff4500;
+        /* padding: 20px; */
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        /* font-size: 16px; */
+        /* margin: 4px 2px; */
+        cursor: pointer;
+        width: 170px;
+    }
 
-    <h1 style="color: #ff4500"><center>USER LOGIN</center></h1>
+
+
+</style>
+
+
+<div class = "login" href ="static/styling-login.css">
+
+    <h1 style="color: #ff4500" height="100%"><center>USER LOGIN</center></h1>
 
     <form method="POST" action="">
         {% csrf_token %}
-        <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
+        <table style="border:2px solid grey;margin-left:auto;margin-right:auto;;padding: 10px;">
             <tr>
                 <td>Username: </td>
-                <td><input type="text" name="Username" placeholder="Username" class="form-control"></td>
+                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
             </tr>
                     
             <tr>
                 <td>Password: </td>
-                <td><input type="Password" name="password" placeholder="Password" class="form-control"></td>
+                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
             </tr>
 
             <tr>
@@ -31,14 +51,12 @@
     </form>
 
     {% if messages %}
-        <ul>
             {% for message in messages %}
-                <li>{{ message }}</li>
+                <center>{{ message }}</center>
             {% endfor %}
-        </ul>
     {% endif %}     
         
-    Don't have an account yet? <a href="{% url 'main:register' %}">JOIN US NOW!</a>
+   <center>Don't have an account yet? <a href="{% url 'main:register' %}">JOIN US NOW!</a></center> 
 
 </div>
 
