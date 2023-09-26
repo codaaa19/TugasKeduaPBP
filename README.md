@@ -553,10 +553,75 @@ Cookies merupakan data yang berada pada sisi client. Django akan menyimpan ID pa
 # Apakah cookies aman untuk dipakai pada default wweb? Atau ada resiko berpotensi tertentu yang harus diwaspadai ?
 Cukup aman dengan adanya `reverse engineering`, penggunaan cookies dapat dikatakan aman dan untuk mencegah hal-hal yang tidak diinginkan terjadi, kita bisa menambahkan `{% csrf_token %}` untuk menambah safety dari data cookies.
 
-# BONUS (ADD AMOUNT + DELETE ITEM) MENYUSUL HEHE
+# 2 USER ADD # ITEM BERBEDA
+
+![Foto Bukti 1](buktiPBP1.png)
+
+![Foto Bukti 2](buktiPBP2.png)
 
 
+# BONUS (ADD AMOUNT + DELETE ITEM)
 
+Cara saya untuk implement penambahan, pengurangan, serta penghapusan item adalah dengan membuat function berikut pada `views.py` dan selalu diawali dengan `@csrf_exempt` untuk keperluan debugging dan safety pastinya😎😁:
 
+- `kurang_amount` : Untuk mengurangi amount dari item.
+- `tambah_amount` : Untuk menambah amount dari item.
+- `hapus_item`    : Unuk menghapus item dari list items.
 
+Pada `kurang_amount`, saya mengambil item dengan menggunakan parameter ID dan saya dapatkan hasil amount nya menggunakan method `get`. Setelah itu, saya coba implementasikan sesuai keinginan.
 
+1. Jika amount > 1, maka amount item akan dikurangi satu setiap button diklik.
+2. Selebihnya, item akan dihapus dari list items.
+
+```py
+@csrf_exempt
+def kurang_amount(request,id):
+    barang_check = Item.objects.get(pk=id)
+    if barang_check.amount > 1:
+        barang_check.amount -= 1
+        barang_check.save()
+    else:
+        barang_check.delete() #hapus item
+    return HttpResponseRedirect(reverse('main:show_main')) #refer ke website yang sama (refresh untuk menampilkan amount yang berubah)
+```
+
+Implementasi yang sama saya terapkan juga pada `tambah_amount` hanya saja tidak diperlukan if else :
+
+```py
+@csrf_exempt
+def tambah_amount(request,id):
+    barang_check = Item.objects.get(pk=id)
+    barang_check.amount += 1
+    barang_check.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
+```
+
+Terakhir, pada `delete_item` akan diterapkan seperti else pada `kurang_amount` :
+
+```py
+@csrf_exempt
+def hapus_item(request,id):
+    barang_check = Item.objects.get(pk=id)
+    barang_check.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+```
+
+Setelah itu, kita perlu membuat button untuk implement function yang telah dibuat sebelumnya :
+
+```py
+...
+<td><form method="POST" action="/hapus_item/{{item.id}}/"><button style="color: #ff4500;">DELETE</button></form></td>
+#<td> membuat sel baru untuk button
+#action ... untuk implement function
+#di antara tag button diisi dengan string tampilan button (untuk case ini menggunakan DELETE)
+...
+<td><form method="POST" action="/kurang_amount/{{item.id}}/"><button style="width: 50%;">-</button></form></td>
+#widht 50% digunakan untuk mengubah lebar dari button (sesuai kebutuhan kalian)
+...
+<td><form method="POST" action = "/tambah_amount/{{item.id}}/"> 
+                {% csrf_token %} #safety
+                <button style="width: 50%;" type="submit">+</button>
+            </form></td>
+```
+
+Sehingga, tabel yang saya buat akan menjadi seperti ini :
