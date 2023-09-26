@@ -625,3 +625,7 @@ Setelah itu, kita perlu membuat button untuk implement function yang telah dibua
 ```
 
 Sehingga, tabel yang saya buat akan menjadi seperti ini :
+
+![Tabel](showTabel.png)
+
+Untuk styling, kalian dapat mencobanya sendiri yaa hehe GSGS mengenai implement CSS on HTML file😁
