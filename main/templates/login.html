@@ -21,7 +21,14 @@
         width: 170px;
     }
 
-
+    .login{
+        justify-content: center;
+        /* display: flex; */
+        flex-direction: column;
+        display: flex;
+        height: 80vh;
+        align-items: center
+    }
 
 </style>
 
@@ -32,20 +39,20 @@
 
     <form method="POST" action="">
         {% csrf_token %}
-        <table style="border:2px solid grey;margin-left:auto;margin-right:auto;;padding: 10px;">
+        <table style="border:2px solid whitesmoke;margin-left:auto;margin-right:auto;;padding: 10px;background-color: beige; border-radius: 10px;">
             <tr>
-                <td>Username: </td>
+                <td style="color: rgb(89, 31, 31);">Username: </td>
                 <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
             </tr>
                     
             <tr>
-                <td>Password: </td>
+                <td style="color: rgb(89, 31, 31);">Password: </td>
                 <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
             </tr>
 
             <tr>
                 <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
+                <td><input class="btn login_btn" type="submit" value="Login" style="background-color: aliceblue;"></td>
             </tr>
         </table>
     </form>
@@ -56,7 +63,7 @@
             {% endfor %}
     {% endif %}     
         
-   <center>Don't have an account yet? <a href="{% url 'main:register' %}">JOIN US NOW!</a></center> 
+   <center style="color: aliceblue;">Don't have an account yet? <a href="{% url 'main:register' %}">JOIN US NOW!</a></center> 
 
 </div>
 
