@@ -176,11 +176,100 @@ def add_product_ajax(request):
 </script>
 ```
 
-9. Menjalankan `python manage.py collectstatic` untuk 
+9. Menjalankan `python manage.py collectstatic` untuk mengumpulkan data-data statis yang diperlukan yang dapat diakses pada web 
 
+# TUGAS 5
 
+# Kustomisasi login, register, dan inventory
+Sudah implementasi kegunaan CSS pada styling website pada login, register, dan inventory. Pada login, kita memposisikan form login ke bagian tengah dengan menggunakan CSS dan merubah warnanya sesuai dengan kebutuhan. Pada register, hanya perubahan background color saja sesuai kebutuhan😁. Inventory banyak perubahan yaitu peralihan dari tabel menjadi **Cards**
 
+# Implementasi Cards !
+Dengan memanfaatkan bootstrap, memudahkan saya dalam pengerjaan peralihan dari table menjadi **Cards**. Saya menggunakan template yang sudah ada pada bootstrap dan saya adaptasi sesuai dengan kebutuhan dan keinginan saya sendiri :
 
+```py
+    <div class="row">
+    {% for item in items %}
+    <div class="col-md-1"></div>
+      <div class="card rounded" style="width: 20rem;">
+        <div class="card-body">
+          <h3 class="card-title" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">{{item.name}}</h5>
+          <h3 class="card-subtitle mb-2 text-muted">{{item.price}} $</h6>
+          <p class="card-text">{{item.description}}</p>
+          <p class ="card-text">Stock : {{item.amount}}</p>
+          <form method="POST" action = "/tambah_amount/{{item.id}}/"> 
+            {% csrf_token %}
+            <button style="width: 50%;" type="submit">+</button>
+        </form>
+        <form method="POST" action="/kurang_amount/{{item.id}}/"><button style="width: 15%;">-</button></form>
+        <form method="POST" action="/hapus_item/{{item.id}}/"><button style="color: #ff4500;">DELETE</button></form>
+        </div>
+      </div>
+```
+
+# Manfaat Selector dan Waktu yang Tepat !
+
+CSS memiliki beberapa sector yang dapat digunakan untuk styling seperti :
+
+1. Element Sector --> Styling berdasarkan element tertentu.
+```
+p {
+  text-align: center;
+  color: red;
+}
+```
+
+2. Id Selector --> Styling berdasarkan ID tertentu.
+
+```
+#p2 {
+  text-align: center;
+  color: red;
+}
+```
+
+3. Class selector --> Styling berdasarkan class tertentu.
+
+```
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+```
+# JELASKAN HTML5 TAG YANG KAMU KETAHUI !
+1. `<!DOCTYPE>`--> digunakan untuk menentukan jenis dokumen.
+
+2. `<a>` --> digunakan untuk membuat hyperlink ke web lain, file, dan lain-lain.
+
+3. `<body>` --> digunakan untuk menentukan body dari html.
+
+4. `<button>` --> digunakan untuk membuat button.
+
+5. `<h1>,<h2>, ... <h6>` --> digunakan untuk menentukan header serta ukurannya. 
+
+6. `<table>` --> digunakan untuk membuat table pada html.
+
+... dan masih banyak lagi html tag yang dapat digunakan.
+
+# JELASKAN PERBEDAAN PADDING DENGAN 
+![PadMar](perbedaanPADDINGMARGIN.png)
+
+Sesuai dengan gambar di atas, walaupun margin dan juga padding sama-sama digunakan sebagai 
+**mengatur space kosong pada website**, margin itu digunakan sebagai **menata sisi luar** sedangkan padding digunakan
+untuk **menata sisi dalam**.
+
+# JELASKNA PERBEDAAN FRAMEWORK CSS TAILWIND & BOOTSTRAP !
+- `Bootstrap` : menyediakan komponen-komponen siap pakai (sudah jadi).
+<br>
+Dikarenakan siap pakai, maka keunggulan dari bootstrap ini ada pada waktu **kecepatan implementasi**.
+
+- `Tailwind` : menyediakan template dasar sehingga diperlukan usaha lebih untuk kita dapat memakai serta menyesuaikannya.
+<br>
+Dikarenakan memiliki template mendasar, maka keunggulan dari tailwind ini ada pada **styling kustomisasi**.
+
+# BONUS
+Mengubah Background color `style="background-color: antiquewhite;`
 # TUGAS 2
 
 # Cara Membuat Proyek Django
@@ -813,95 +902,3 @@ Sehingga, tabel yang saya buat akan menjadi seperti ini :
 
 Untuk styling, kalian dapat mencobanya sendiri yaa hehe GSGS mengenai implement CSS on HTML file😁
 
-# TUGAS 5
-
-# Kustomisasi login, register, dan inventory
-Sudah implementasi kegunaan CSS pada styling website pada login, register, dan inventory. Pada login, kita memposisikan form login ke bagian tengah dengan menggunakan CSS dan merubah warnanya sesuai dengan kebutuhan. Pada register, hanya perubahan background color saja sesuai kebutuhan😁. Inventory banyak perubahan yaitu peralihan dari tabel menjadi **Cards**
-
-# Implementasi Cards !
-Dengan memanfaatkan bootstrap, memudahkan saya dalam pengerjaan peralihan dari table menjadi **Cards**. Saya menggunakan template yang sudah ada pada bootstrap dan saya adaptasi sesuai dengan kebutuhan dan keinginan saya sendiri :
-
-```py
-    <div class="row">
-    {% for item in items %}
-    <div class="col-md-1"></div>
-      <div class="card rounded" style="width: 20rem;">
-        <div class="card-body">
-          <h3 class="card-title" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">{{item.name}}</h5>
-          <h3 class="card-subtitle mb-2 text-muted">{{item.price}} $</h6>
-          <p class="card-text">{{item.description}}</p>
-          <p class ="card-text">Stock : {{item.amount}}</p>
-          <form method="POST" action = "/tambah_amount/{{item.id}}/"> 
-            {% csrf_token %}
-            <button style="width: 50%;" type="submit">+</button>
-        </form>
-        <form method="POST" action="/kurang_amount/{{item.id}}/"><button style="width: 15%;">-</button></form>
-        <form method="POST" action="/hapus_item/{{item.id}}/"><button style="color: #ff4500;">DELETE</button></form>
-        </div>
-      </div>
-```
-
-# Manfaat Selector dan Waktu yang Tepat !
-
-CSS memiliki beberapa sector yang dapat digunakan untuk styling seperti :
-
-1. Element Sector --> Styling berdasarkan element tertentu.
-```
-p {
-  text-align: center;
-  color: red;
-}
-```
-
-2. Id Selector --> Styling berdasarkan ID tertentu.
-
-```
-#p2 {
-  text-align: center;
-  color: red;
-}
-```
-
-3. Class selector --> Styling berdasarkan class tertentu.
-
-```
-.login {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-```
-# JELASKAN HTML5 TAG YANG KAMU KETAHUI !
-1. `<!DOCTYPE>`--> digunakan untuk menentukan jenis dokumen.
-
-2. `<a>` --> digunakan untuk membuat hyperlink ke web lain, file, dan lain-lain.
-
-3. `<body>` --> digunakan untuk menentukan body dari html.
-
-4. `<button>` --> digunakan untuk membuat button.
-
-5. `<h1>,<h2>, ... <h6>` --> digunakan untuk menentukan header serta ukurannya. 
-
-6. `<table>` --> digunakan untuk membuat table pada html.
-
-... dan masih banyak lagi html tag yang dapat digunakan.
-
-# JELASKAN PERBEDAAN PADDING DENGAN 
-![PadMar](perbedaanPADDINGMARGIN.png)
-
-Sesuai dengan gambar di atas, walaupun margin dan juga padding sama-sama digunakan sebagai 
-**mengatur space kosong pada website**, margin itu digunakan sebagai **menata sisi luar** sedangkan padding digunakan
-untuk **menata sisi dalam**.
-
-# JELASKNA PERBEDAAN FRAMEWORK CSS TAILWIND & BOOTSTRAP !
-- `Bootstrap` : menyediakan komponen-komponen siap pakai (sudah jadi).
-<br>
-Dikarenakan siap pakai, maka keunggulan dari bootstrap ini ada pada waktu **kecepatan implementasi**.
-
-- `Tailwind` : menyediakan template dasar sehingga diperlukan usaha lebih untuk kita dapat memakai serta menyesuaikannya.
-<br>
-Dikarenakan memiliki template mendasar, maka keunggulan dari tailwind ini ada pada **styling kustomisasi**.
-
-# BONUS
-Mengubah Background color `style="background-color: antiquewhite;`
