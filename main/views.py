@@ -14,6 +14,7 @@ import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseNotFound
 
 # Create your views here.
 
@@ -115,3 +116,23 @@ def hapus_item(request,id):
     barang_check = Item.objects.get(pk=id)
     barang_check.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
+
+def get_product_json(request):
+    data = Item.objects.filter(user = request.user)
+    return HttpResponse(serializers.serialize('json', data))
+
+@csrf_exempt
+def add_product_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        price = request.POST.get("price")
+        description = request.POST.get("description")
+        amount = request.POST.get("amount")
+        user = request.user
+
+        new_product = Item(name=name, price=price, description=description,amount=amount, user=user)
+        new_product.save()
+
+        return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()

@@ -1,3 +1,186 @@
+# TUGAS 6
+
+# Synchronus Programming vs Asynchronus Programming
+
+Synchronus :
+- Diesekusi secara berurut dan satu per satu
+- Lebih mudah dipahami dan diimplementasikan pada program
+- Respon lebih lambat (responsivitas rendah)
+
+Asynchronus :
+- Dapat dijalankan independent sehingga tidak perlu menunggu program lain untuk selesai diesekusi
+- Lebih kompleks untuk diimplementasikan
+- Respon cukup cepat (responsivitas tinggi)
+
+# Event-driven Programming n Example !
+Secara kasar, even driven itu memiliki makna tampilan yang tidak monoton. Mengapa demikian ? Karena event-driven programming membuat tampilan berubah-ubah sesuai dengan interaksi dan input dari user itu sendiri.
+
+Contoh penerapannya yaitu pada pembuatan `Webiste`.
+
+# Asynchronus Programming pada AJAX
+Asynchronus Programming pada AJAX ini meliputi pengiriman serta penerimaan data dari browser itu tidak memerlukan adanya `refresh web`. Hal ini cukup penting dikarenakan asynchronus programming memungkinkan kita untuk menjalankan sebuah operasi tanpa menghentikan program yang lain.
+
+Contoh penerapannya yaitu penggunaan `FetchAPI`
+
+# FetchAPI >>>>> libray Query. WHY?
+
+1. FetchAPI merupakan bagian dari API browser web sehingga kita tidak perlu download/import library external. Sedangkan pada library query, kita harus melakukan download/import terlebih dahulu.
+
+2. FetchAPI membuat code yang kita buat akan lebih readable. Pada library query, sebetulnya cukup aman. Namun, potensi error lebih tinggi saat melakukan permintaan kompleks.
+
+3. FetchAPI memiliki jumlah yang lebih ringan dibanding dengan libray query sehingga code yang diunduh browser akan bersifat lebih efisien.
+
+# PENERAPAN !!
+
+1. Saya menerapkan AJAX GET pada cards yang saya buat baru dari cards sebelumnya.
+
+2. Menambahkan fungsi `get_product_json` untuk mendapatkan product dalam bentuk json pada file `views.py`:
+
+```py
+def get_product_json(request):
+    data = Item.objects.filter(user = request.user)
+    return HttpResponse(serializers.serialize('json', data))
+```
+
+3. Jangan lupa tambahkan path dari function yang kita buat sebelumnya pada `urls.py`
+
+```py
+    path('get-product/', get_product_json, name='get_product_json'),
+```
+
+4. Lalu, kita buat script AJAX untuk mengimplementasikan `get_product_json` serta untuk membuat product refresh :
+
+```py
+<script>
+    async function getProducts() {
+        return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+    }
+    async function refreshProducts() {
+        document.getElementById("product_table").innerHTML = ""
+        const products = await getProducts()
+        let htmlString = ``
+        products.forEach((item) => {
+            htmlString += `    <div class="col-md-1"></div>
+      <div class="card rounded" style="width: 20rem;">
+        <div class="card-body">
+          <h3 class="card-title" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">${item.fields.name}</h5>
+          <h3 class="card-subtitle mb-2 text-muted">${item.fields.price} $</h6>
+          <p class="card-text">${item.fields.description}</p>
+          <p class ="card-text" style="background-color: antiquewhite;">Stock : ${item.fields.amount}</p>
+          <a href="/tambah_amount/${item.pk}">
+              <button>
+                  +
+              </button>
+          </a>
+          <a href="/kurang_amount/${item.pk}">
+              <button>
+                  -
+              </button>
+          </a>
+          <a href="/hapus_item/${item.pk}">
+              <button>
+                  DELETE
+              </button>
+          </a>
+        </div>
+      </div>` 
+        })
+        
+        document.getElementById("product_table").innerHTML = htmlString
+    }
+
+    refreshProducts()
+```
+
+5. Lalu, kita buat AJAX POST untuk membuat form :
+
+```py
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form" onsubmit="return false;">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="col-form-label">Price:</label>
+                        <input type="number" class="form-control" id="price" name="price"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="col-form-label">Description:</label>
+                        <textarea class="form-control" id="description" name="description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="col-form-label">Amount:</label>
+                        <textarea class="form-control" id="amount" name="amount"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Product</button>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
+```
+
+6. Kita buat kembali function baru bernama `add_product_ajax` untuk menambah item menggunakan AJAX pada `views.py`:
+
+```py
+@csrf_exempt #FOR SAFETY REASON
+def add_product_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        price = request.POST.get("price")
+        description = request.POST.get("description")
+        amount = request.POST.get("amount")
+        user = request.user
+
+        new_product = Item(name=name, price=price, description=description,amount=amount, user=user)
+        new_product.save()
+
+        return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()
+```
+
+7. Sama seperti sebelumnya, kita perlu memasukannya kembali ke dalam `urls.py` :
+
+```py
+    path('create-product-ajax/', add_product_ajax, name='add_product_ajax')
+```
+
+8. Membuat script yang dapat mengimpelentasikan function pada AJAX yang telah dibuat sebelumnya :
+
+```py
+    function addProduct() {
+        fetch("{% url 'main:add_product_ajax' %}", {
+            method: 'POST',
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset()
+        return false
+    }
+    document.getElementById("button_add").onclick = addProduct
+
+</script>
+```
+
+9. Menjalankan `python manage.py collectstatic` untuk 
+
+
+
+
 # TUGAS 2
 
 # Cara Membuat Proyek Django
