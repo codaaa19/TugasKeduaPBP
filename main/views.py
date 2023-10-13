@@ -136,3 +136,29 @@ def add_product_ajax(request):
         return HttpResponse(b"CREATED", status=201)
 
     return HttpResponseNotFound()
+
+@csrf_exempt
+def kurang_amount_ajax(request,id):
+    barang_check = Item.objects.get(pk=id)
+    if barang_check.amount > 1:
+        barang_check.amount -= 1
+        barang_check.save()
+        return HttpResponse(b"CREATED", status=201)
+    else:
+        barang_check.delete()
+    # return HttpResponseRedirect(reverse('main:show_main'))
+    return HttpResponse(b"NOT CREATED", status=201)
+
+@csrf_exempt
+def tambah_amount_ajax(request,id):
+    barang_check = Item.objects.get(pk=id)
+    barang_check.amount += 1
+    barang_check.save()
+    # return HttpResponseRedirect(reverse('main:show_main'))
+    return HttpResponse(b"ADD", status=201)
+
+@csrf_exempt
+def hapus_item_ajax(request,id):
+    barang_check = Item.objects.get(pk=id)
+    barang_check.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))

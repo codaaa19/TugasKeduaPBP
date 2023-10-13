@@ -87,21 +87,9 @@
           <h3 class="card-subtitle mb-2 text-muted">${item.fields.price} $</h6>
           <p class="card-text">${item.fields.description}</p>
           <p class ="card-text" style="background-color: antiquewhite;">Stock : ${item.fields.amount}</p>
-          <a href="/tambah_amount/${item.pk}">
-              <button>
-                  +
-              </button>
-          </a>
-          <a href="/kurang_amount/${item.pk}">
-              <button>
-                  -
-              </button>
-          </a>
-          <a href="/hapus_item/${item.pk}">
-              <button>
-                  DELETE
-              </button>
-          </a>
+          <button class="btn btn-primary" onclick="tambah_amount_ajax(${item.pk})">+</button>
+          <button class="btn btn-primary" onclick="kurang_amount_ajax(${item.pk})">-</button>
+          <button class="btn btn-primary" onclick="hapus_item_ajax(${item.pk})">DELETE</button>
         </div>
       </div>` 
         })
@@ -119,6 +107,28 @@
 
         document.getElementById("form").reset()
         return false
+    }
+
+    function tambah_amount_ajax(id) {
+        fetch('/tambah_amount_ajax/0/'.replace("0", id), {
+            method: 'POST',
+        }).then(refreshProducts)
+
+        return false
+    }
+
+    function kurang_amount_ajax(id) {
+        fetch('/kurang_amount_ajax/0/'.replace("0", id), {
+            method: 'POST',
+        }).then(refreshProducts)
+
+        return false
+    }
+
+    function hapus_item_ajax(id) {
+        fetch('/hapus_item_ajax/0/'.replace("0", id), {
+            method: 'DELETE',
+        }).then(refreshProducts)
     }
     document.getElementById("button_add").onclick = addProduct
 
