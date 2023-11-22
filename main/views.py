@@ -15,6 +15,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseNotFound
+from django.http import JsonResponse
+import json
+from django.contrib.auth import logout as auth_logout
 
 # Create your views here.
 
@@ -162,3 +165,25 @@ def hapus_item_ajax(request,id):
     barang_check = Item.objects.get(pk=id)
     barang_check.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        new_product = Item.objects.create(
+            user = request.user,
+            name = data["name"],
+            price = int(data["price"]),
+            amount = int(data["amount"]),
+            description = data["description"],
+            # date_added = data(["date_added"])
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+    

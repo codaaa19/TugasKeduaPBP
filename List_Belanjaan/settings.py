@@ -27,7 +27,7 @@ env = environ.Env() # Tambahkan kode berikut
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-nccqbbj0vjgd50zgx6ehg#a0s_e3o4h9%b^=@p5j&=i$i&5s+i'
 
-PRODUCTION = env.bool('PRODUCTION', False)
+# PRODUCTION = env.bool('PRODUCTION', False)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'authentication',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'List_Belanjaan.urls'
@@ -90,11 +93,11 @@ DATABASES = {
     }
 }
 
-if PRODUCTION:
-    DATABASES = {
-        'default': env.db('DATABASE_URL')
-    }
-    DATABASES["default"]["ATOMIC_REQUESTS"] = True
+# if PRODUCTION:
+#     DATABASES = {
+#         'default': env.db('DATABASE_URL')
+#     }
+#     DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 
 
@@ -144,4 +147,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 
